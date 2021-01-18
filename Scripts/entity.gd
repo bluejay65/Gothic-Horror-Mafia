@@ -5,7 +5,6 @@ extends Node2D
 class_name Entity
 
 var player_can_use: bool = false #to create the function for usablity, use "_use()"
-onready var usable_shader_material = preload("res://Resources/outline_shader_material.tres")
 signal show_usable
 signal hide_usable
 signal use(player)

@@ -22,4 +22,5 @@ alignment = 2
 margin_top = 600.0
 margin_right = 1024.0
 margin_bottom = 600.0
+custom_constants/separation = 0
 alignment = 1

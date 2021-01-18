@@ -7,8 +7,9 @@ extends Node
 
 const scene = 0
 const sprite = 1
+const item_name = 2
 
-const item_ids:Dictionary = {1: {scene: preload("res://Items/Coal/Coal.tscn"), sprite: preload("res://Items/Coal/coal.png")}} #TODO figure out if load() or preload() is faster
+const item_ids:Dictionary = {1: {scene: preload("res://Items/Coal/Coal.tscn"), sprite: preload("res://Items/Coal/coal.png"), item_name: "Coal"}} #TODO figure out if load() or preload() is faster
 
 func instanced_item(id:int):
 	var instance = item_ids[id][scene].instance()

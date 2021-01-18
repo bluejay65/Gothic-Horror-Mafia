@@ -15,6 +15,6 @@ func _ready():
 	player_can_use = true
 
 func _use(player):
-	if player.inventory.size() < player.max_inventory_size:
+	if player.inventory.find(0) >= 0:
 		player.pick_up(self.id)
 		queue_free()

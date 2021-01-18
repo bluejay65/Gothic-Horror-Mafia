@@ -48,3 +48,6 @@ position = Vector2( 96, 16 )
 
 [node name="Coal2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 96, 16 )
+
+[node name="Coal3" parent="." instance=ExtResource( 5 )]
+position = Vector2( 48, 24 )

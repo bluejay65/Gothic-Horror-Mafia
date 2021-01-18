@@ -1,6 +1,7 @@
 shader_type canvas_item;
 uniform float outline_width = 0.5;
 uniform vec4 outline_color: hint_color;
+uniform float opacity = 1;
 
 void fragment(){
     vec4 col = texture(TEXTURE, UV);
@@ -35,8 +36,9 @@ void fragment(){
 
     // Fill transparent pixels only, don't overlap texture
     if(col.a < 0.5) {
-        COLOR = mix(col, outline_color, maxa-mina);
+        vec4 outline_col = mix(col, outline_color, maxa-mina);
+		COLOR = vec4(outline_col.r, outline_col.g, outline_col.b, outline_col.a*opacity)
     } else {
-        COLOR = col;
+        COLOR = vec4(col.r, col.g, col.b, col.a*opacity)
     }
 }

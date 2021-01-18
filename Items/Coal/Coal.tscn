@@ -4,8 +4,6 @@
 [ext_resource path="res://Items/Coal/coal.gd" type="Script" id=2]
 [ext_resource path="res://Resources/outline_shader_material.tres" type="Material" id=3]
 
-
-
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 8 )
 
