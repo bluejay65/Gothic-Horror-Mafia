@@ -1,10 +1,11 @@
 extends CanvasLayer
 
-onready var slot_scene = preload("res://Scenes/InventorySlot.tscn")
-onready var player = get_node("../Player")
+onready var slot_scene = preload("res://GUI/InventorySlot.tscn")
+onready var player = get_node("..")
 onready var map = get_node("../..")
-onready var inventory = get_node("MarginContainer/VBoxContainer/Inventory")
-var moused_slot = null
+onready var inventory_node = get_node("MarginContainer/InventoryContainer/Inventory")
+var player_slots:Array = []
+var selected_player_slot = null
 var unselected_stylebox = null
 var selected_stylebox = null
 
@@ -13,41 +14,44 @@ func _ready():
 	for slot in range(player.max_inventory_size):
 		var slot_instance = slot_scene.instance()
 		var slot_panel = slot_instance.get_node("PanelContainer")
-		slot_instance.set_name("Slot"+str(slot))
+		player_slots.append(slot_instance)
+		player.available_slots.append(slot_instance)
 		
-		slot_panel.connect("mouse_entered", self, "_on_slot_mouse_enter", [slot_panel])
-		slot_panel.connect("mouse_exited", self, "_on_slot_mouse_exit", [slot_panel])
-		
-		inventory.add_child(slot_instance)
+		inventory_node.add_child(slot_instance)
 	
-	unselected_stylebox = inventory.get_node("Slot0/PanelContainer").get_stylebox("panel")
+	unselected_stylebox = player_slots[0].get_node("PanelContainer").get_stylebox(Resources.ITEM_SLOT_STYLEBOX)
 	selected_stylebox = unselected_stylebox.duplicate()
 	selected_stylebox.set_border_width_all(3)
 	selected_stylebox.set_border_color(Color(1, 1, 1, 1))
 	
-	slot_switched(0, 0)
+	selected_player_slot = player_slots[0]
+	set_selected_player_slot(player_slots[0])
 
-func item_picked_up(id:int, slot_num:int):
-	var slot = inventory.get_node("Slot"+str(slot_num))
-	slot.get_node("PanelContainer/Sprite").set_texture(ItemInfo.item_ids[id][ItemInfo.sprite])
-	slot.get_node("Label").set_text(ItemInfo.item_ids[id][ItemInfo.item_name])
-
-func item_dropped(slot_num:int):
-	var slot = inventory.get_node("Slot"+str(slot_num))
-	slot.get_node("PanelContainer/Sprite").set_texture(null)
-	slot.get_node("Label").set_text("")
-
-func slot_switched(slot_num:int, last_slot_num:int):
-	var last_slot_panel = inventory.get_node("Slot"+str(last_slot_num)+"/PanelContainer")
-	var slot_panel = inventory.get_node("Slot"+str(slot_num)+"/PanelContainer")
+func set_selected_player_slot(slot):
+	var last_slot_panel = selected_player_slot.get_node("PanelContainer")
+	var slot_panel = slot.get_node("PanelContainer")
+	selected_player_slot = slot
 	
-	last_slot_panel.add_stylebox_override("panel", unselected_stylebox)
-	slot_panel.add_stylebox_override("panel", selected_stylebox)
+	last_slot_panel.add_stylebox_override(Resources.PANEL_CONTAINER_STYLEBOX, unselected_stylebox)
+	slot_panel.add_stylebox_override(Resources.PANEL_CONTAINER_STYLEBOX, selected_stylebox)
+	
+func has_open_player_slot():
+	var has_open = false
+	for slot in player_slots:
+		if slot.item <= 0:
+			has_open = true
+			break
+	return has_open
+	
+func first_open_player_slot():
+	for slot in player_slots:
+		if slot.item <= 0:
+			return slot
+	return null
 
-func _on_slot_mouse_enter(slot_panel):
-	moused_slot = slot_panel.get_node("..")
-	slot_panel.get_node("Sprite").get_material().set_shader_param("outline_color", Color(1, 1, 1, 1))
-
-func _on_slot_mouse_exit(slot_panel):
-	moused_slot = null
-	slot_panel.get_node("Sprite").get_material().set_shader_param("outline_color", Color(0, 0, 0, 1))
+func switch_inventory_slots(slot1, slot2):
+	var id1 = slot1.item
+	var id2 = slot2.item
+	
+	slot1.set_item(id2)
+	slot2.set_item(id1)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Items/Coal/coal.png" type="Texture" id=1]
-[ext_resource path="res://Items/Coal/coal.gd" type="Script" id=2]
+[ext_resource path="res://Entities/Fixtures/Bed/bed.png" type="Texture" id=1]
+[ext_resource path="res://Entities/Fixtures/Bed/bed.gd" type="Script" id=2]
 [ext_resource path="res://Resources/outline_shader_material.tres" type="Material" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -15,7 +15,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="Coal" type="Area2D"]
+[node name="Bed" type="StaticBody2D"]
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

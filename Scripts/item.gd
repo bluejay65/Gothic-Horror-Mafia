@@ -14,7 +14,7 @@ var item_name = null
 func _ready():
 	player_can_use = true
 
-func _use(player):
-	if player.inventory.find(0) >= 0:
+func use(player):
+	if player.gui.has_open_player_slot():
 		player.pick_up(self.id)
 		queue_free()

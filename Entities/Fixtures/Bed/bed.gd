@@ -5,5 +5,5 @@ extends Fixture
 func _ready():
 	player_can_use = true
 
-func _use(player):
+func use(player):
 	print(str(player)+": zzzzzzzzzzzz")

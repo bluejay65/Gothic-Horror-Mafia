@@ -1,0 +1,16 @@
+How to add new Items:
+	1. Create a new folder under res://Entities/Items/
+	2. Add the sprites to the folder
+	3. Duplicate the scene of another item and add it to the folder
+	4. Rename the root node of that scene
+	5. Use an AnimatedSprite or Sprite to show the sprites
+	6. Rename the AnimatedSprite or Sprite to "Sprite"
+	7. Match the collision shape to the sprite
+	8. Go to res://Scripts/entity_info.gd and add the item's id, needed paths, and name
+	9. Copy the script of another item and add it to the root node of the scene
+	10. Set the id of the item in the script to the same as in entity_info.gd
+	11. Program the item's sprite
+	12. Set up any recipes in fixtures
+	
+How to add new Fixtures:
+	1. This is going to be annoying later

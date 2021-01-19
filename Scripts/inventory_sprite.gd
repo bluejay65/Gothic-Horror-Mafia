@@ -27,6 +27,5 @@ func reset_position():
 	
 	set_position(Vector2(panel_size.x/2 + panel_border_width, panel_size.y/2 + panel_border_width))
 
-func go_to(pos):
+func follow_mouse():
 	set_position(get_position() + to_local(get_global_mouse_position()))
-	#print(get_position())
