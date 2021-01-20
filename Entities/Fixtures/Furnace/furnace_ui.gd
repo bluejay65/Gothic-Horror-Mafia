@@ -1,21 +1,16 @@
-extends MarginContainer
+extends FixtureUI
 
-onready var slot_scene = preload("res://GUI/InventorySlot.tscn")
-
-onready var material_slots_container = get_node("PanelContainer/HBoxContainer/CenterContainer/GridContainer")
-onready var crafted_slot_container = get_node("PanelContainer/HBoxContainer/CenterContainer2")
-
-var slots:Array = []
+var silver_materials:Dictionary = {3: 1} # 1 silver ore
+var silver_crafted:Dictionary = {2: 1} # one silver
 
 func _ready(): #TODO make another type of scene with a "crafted slot" that items can't be put into
-	var panel_container = get_node("PanelContainer")
-	panel_container.add_stylebox_override(Resources.PANEL_CONTAINER_STYLEBOX, panel_container.get_theme().get_stylebox(Resources.UI_BACKGROUND_STYLEBOX, "PanelContainer"))
+	material_slots_container = get_node("PanelContainer/HBoxContainer/CenterContainer/GridContainer")
+	crafted_slots_container = get_node("PanelContainer/HBoxContainer/CenterContainer2/GridContainer")
+	fuel_slots_container = get_node("PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer")
+	num_material_slots = 1
+	num_crafted_slots = 1
+	num_fuel_slots = 1
 	
-	var slot_instance = slot_scene.instance()
-	crafted_slot_container.add_child(slot_instance)
-	slots.append(slot_instance)
+	crafting_recipes[silver_crafted] = silver_materials
 	
-	for i in range(5):
-		slot_instance = slot_scene.instance()
-		material_slots_container.add_child(slot_instance)
-		slots.append(slot_instance)
+	self.setup()

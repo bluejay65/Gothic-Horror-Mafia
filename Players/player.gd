@@ -152,7 +152,7 @@ func after_mouse_inventory():
 				var last_moused_slot = moused_slot
 				check_mouse_slot()
 				if moused_slot != null:
-					if moused_slot != moused_sprite.get_node("../.."):
+					if moused_slot != moused_sprite.get_node("../..") and !moused_slot.is_locked:
 						var moused_slot_num = gui.player_slots.find(moused_slot)
 						gui.switch_inventory_slots(moused_slot, last_moused_slot)
 				else:

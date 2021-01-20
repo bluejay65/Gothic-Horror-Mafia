@@ -36,18 +36,10 @@ func set_selected_player_slot(slot):
 	slot_panel.add_stylebox_override(Resources.PANEL_CONTAINER_STYLEBOX, selected_stylebox)
 	
 func has_open_player_slot():
-	var has_open = false
-	for slot in player_slots:
-		if slot.item <= 0:
-			has_open = true
-			break
-	return has_open
-	
+	return ItemInfo.has_open_slot(player_slots)
+
 func first_open_player_slot():
-	for slot in player_slots:
-		if slot.item <= 0:
-			return slot
-	return null
+	return ItemInfo.first_open_slot(player_slots)
 
 func switch_inventory_slots(slot1, slot2):
 	var id1 = slot1.item

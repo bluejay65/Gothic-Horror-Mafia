@@ -9,7 +9,6 @@ extends Entity
 class_name Item
 
 var id = null
-var item_name = null
 
 func _ready():
 	player_can_use = true
