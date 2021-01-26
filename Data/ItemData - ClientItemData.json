@@ -1,0 +1,22 @@
+{
+  "1": {
+    "ItemName": "Coal",
+    "ItemSpritePath": "res://Entities/Items/Coal/coal.png",
+    "ItemScenePath": "res://Entities/Items/Coal/Coal.tscn"
+  },
+  "2": {
+    "ItemName": "Silver",
+    "ItemSpritePath": "res://Entities/Items/Silver/silver.png",
+    "ItemScenePath": "res://Entities/Items/Silver/Silver.tscn"
+  },
+  "3": {
+    "ItemName": "Silver Ore",
+    "ItemSpritePath": "res://Entities/Items/SilverOre/silver_ore.png",
+    "ItemScenePath": "res://Entities/Items/SilverOre/SilverOre.tscn"
+  },
+  "-1": {
+    "ItemName": null,
+    "ItemSpritePath": null,
+    "ItemScenePath": null
+  }
+}

@@ -1,19 +1,22 @@
-# every item needs an id and item_name declared
-# id needs to match with the id in item_info
-# to access item use ItemInfo.item_ids[id][ItemInfo.scene/sprite]
-# _use lets the player pick up the item if their inventory has space
-# spawn spawns the item at the position parameter
-# instanced_item returns an instance of this item
+# base class for every item on the map
+
+# item_id needs to match with the item_id in item_info
+
+# use(player):
+# lets the player pick up an item if the player has open slots
 
 extends Entity
 class_name Item
 
-var id = null
+var item_id:int = -1
 
 func _ready():
 	player_can_use = true
 
+# lets the player pick up an item if the player has open slots
 func use(player):
 	if player.gui.has_open_player_slot():
-		player.pick_up(self.id)
-		queue_free()
+		player.pick_up(self)
+
+func get_id():
+	return item_id

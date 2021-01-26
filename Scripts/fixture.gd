@@ -5,9 +5,6 @@ extends Entity
 class_name Fixture
 
 var player_can_open:bool = false
-
-func open(player):
-	player.fixture_opened = self
 	
 func close(player):
 	player.fixture_opened = null

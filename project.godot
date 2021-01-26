@@ -50,14 +50,16 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Gothic Horror Mafia"
-run/main_scene="res://Maps/TileMap.tscn"
+config/name="Gothic Horror Mafia Client"
+run/main_scene="res://Scenes/Maps/TileMap.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-ItemInfo="*res://Scripts/item_info.gd"
-Resources="*res://Scripts/resources.gd"
+ImportData="*res://Scripts/Singletons/import_data.gd"
+Resources="*res://Scripts/Singletons/resources.gd"
+Helper="*res://Scripts/Singletons/helper.gd"
+Server="*res://Scripts/Singletons/server.gd"
 
 [gdnative]
 

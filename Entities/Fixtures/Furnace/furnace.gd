@@ -10,7 +10,7 @@ func _ready():
 	player_can_open = true
 
 func use(player):
-	self.open(player)
+	Server.send_fixture_opened(get_position())
 	player.get_node("GUI").add_child(furnace_ui_instance)
 	
 	for slot in furnace_ui_instance.slots:

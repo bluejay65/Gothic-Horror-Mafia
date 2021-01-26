@@ -1,4 +1,4 @@
 extends Item
 
 func _ready():
-	self.id = 2
+	self.item_id = 2

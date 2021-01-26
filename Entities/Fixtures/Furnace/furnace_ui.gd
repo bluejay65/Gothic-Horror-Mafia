@@ -1,9 +1,9 @@
-extends FixtureUI
+extends FixtureUI #TODO maybe make this entire thing a JSON file, but probably not
 
-var silver_materials:Dictionary = {3: 1} # 1 silver ore
-var silver_crafted:Dictionary = {2: 1} # one silver
+var silver_materials:Dictionary = {3: 1} # 1 silver ore TODO definetly make this a JSON file
+var silver_crafted:Dictionary = {2: 1} # 1 silver
 
-func _ready(): #TODO make another type of scene with a "crafted slot" that items can't be put into
+func _ready():
 	material_slots_container = get_node("PanelContainer/HBoxContainer/CenterContainer/GridContainer")
 	crafted_slots_container = get_node("PanelContainer/HBoxContainer/CenterContainer2/GridContainer")
 	fuel_slots_container = get_node("PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer")

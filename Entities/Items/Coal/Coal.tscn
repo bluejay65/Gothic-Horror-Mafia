@@ -3,15 +3,15 @@
 [ext_resource path="res://Entities/Items/Coal/coal.gd" type="Script" id=2]
 [ext_resource path="res://Resources/outline_shader_material.tres" type="Material" id=3]
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 8 )
 
-[sub_resource type="StreamTexture" id=3]
+[sub_resource type="StreamTexture" id=2]
 load_path = "res://.import/coal.png-cdf3803fd381ad256e57327e76e8d85e.stex"
 
-[sub_resource type="SpriteFrames" id=4]
+[sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ SubResource( 3 ) ],
+"frames": [ SubResource( 2 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -21,8 +21,8 @@ animations = [ {
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 5 )
+shape = SubResource( 1 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 material = ExtResource( 3 )
-frames = SubResource( 4 )
+frames = SubResource( 3 )

@@ -1,4 +1,4 @@
-extends TileMap
+extends MarginContainer
 
 
 # Declare member variables here. Examples:

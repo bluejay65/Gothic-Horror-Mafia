@@ -1,53 +1,61 @@
 extends KinematicBody2D
 class_name Player
 
-var speed:int = 100
 var entity_to_be_used = null
 var fixture_opened = null
 var usable_entities:Array = []
 
 var available_slots:Array = []
-var max_inventory_size:int = 10
 var moused_slot = null
 var mouse_held:bool = false
 var moused_sprite = null
+var movement_speed: int = 0
+var max_inventory_size: int = 0
 
-
+onready var reach_circle = CircleShape2D.new()
 onready var area2d = get_node("Area2D")
 onready var gui = get_node("GUI")
 
 
 func _ready():
+	Server.set_player(self)
+	
+	reach_circle.set_radius(0)
+	area2d.get_node("CollisionShape2D").set_shape(reach_circle)
+	
+	set_physics_process(false)
 	area2d.connect("area_entered", self, "_on_Area2D_area_entered")
 	area2d.connect("body_entered", self, "_on_Area2D_body_entered")
 	area2d.connect("area_exited", self, "_on_Area2D_area_exited")
 	area2d.connect("body_exited", self, "_on_Area2D_body_exited")
 
-func _physics_process(_delta):
-	#movement
-	var movement = Vector2.ZERO
-	
-	if Input.is_action_pressed("up"):
-		movement += Vector2.UP
-	if Input.is_action_pressed("down"):
-		movement += Vector2.DOWN
-	if Input.is_action_pressed("left"):
-		movement += Vector2.LEFT
-	if Input.is_action_pressed("right"):
-		movement += Vector2.RIGHT
+
+func _on_connection_succeeded():
+	set_physics_process(true)
+
+# INPUT FUNCTIONS
+func _physics_process(delta):
+	if Server.is_connected:
+		#detects inputs for movement
+		var move_direction = movement_input()
+		position += movement_speed*move_direction.normalized()*delta
 		
-	move_and_slide(movement.normalized()*speed)
-	
-	if fixture_opened == null:
-		#use entities
-		if Input.is_action_just_pressed("use"):
-			if entity_to_be_used != null:
-				entity_to_be_used.use(self)
-		if Input.is_action_just_pressed("drop_item"): #drop items
-			drop_item()
-	else:
-		if Input.is_action_just_pressed("use"):
-			fixture_opened.stop_use(self)
+		var player_state = {"t": OS.get_system_time_msecs(), "d": move_direction}
+		
+		Server.send_player_state(player_state) #send the direction the player wants to move to the server
+		
+		# detects inputs for interations
+	if Input.is_action_just_pressed("use"):
+		if fixture_opened == null:
+			#use entities
+			if Input.is_action_just_pressed("use"):
+				if entity_to_be_used != null:
+					entity_to_be_used.use(self)
+			if Input.is_action_just_pressed("drop_item"): #drop items
+				drop_item()
+		else:
+			if Input.is_action_just_pressed("use"):
+				fixture_opened.stop_use(self)
 		
 	#manage inventory
 	change_inventory_slot()
@@ -60,6 +68,20 @@ func _physics_process(_delta):
 	if Input.is_action_just_released("left_click"):
 		mouse_held = false
 		after_mouse_inventory()
+
+func movement_input():
+	var move_direction = Vector2.ZERO
+	
+	if Input.is_action_pressed("up"):
+		move_direction += Vector2.UP
+	if Input.is_action_pressed("down"):
+		move_direction += Vector2.DOWN
+	if Input.is_action_pressed("left"):
+		move_direction += Vector2.LEFT
+	if Input.is_action_pressed("right"):
+		move_direction += Vector2.RIGHT
+	
+	return move_direction
 
 func _process(_delta):
 	#determine which entity to use
@@ -110,6 +132,24 @@ func check_mouse_slot():
 		else:
 			moused_slot = null
 
+func update_stats(stats):
+	set_movement_speed(stats["s"])
+	set_reach_radius(stats["r"])
+	set_max_inventory_size(stats["i"])
+
+func set_movement_speed(speed):
+	movement_speed = speed
+
+func set_reach_radius(radius):
+	reach_circle.set_radius(radius)
+
+func set_max_inventory_size(size):
+	max_inventory_size = size
+	gui.setup_inventory()
+
+func set_position(s_position:Vector2):
+	position = s_position
+
 func change_inventory_slot():
 	if Input.is_action_just_released("scroll_up"):
 		var selected_player_slot_num = gui.player_slots.find(gui.selected_player_slot)
@@ -127,12 +167,15 @@ func change_inventory_slot():
 		if max_inventory_size >= 1:
 			gui.set_selected_player_slot(gui.player_slots[0])
 
-func pick_up(id):
-	gui.first_open_player_slot().set_item(id)
+func pick_up(item):
+	Server.send_item_picked_up(item)
+
+func receive_item(item_id):
+	gui.first_open_player_slot().set_item(item_id)
 
 func drop_item():
 	if gui.selected_player_slot.has_item():
-		ItemInfo.spawn(gui.selected_player_slot.item, get_position())
+		Server.send_item_dropped(gui.selected_player_slot.item)
 		gui.selected_player_slot.remove_item()
 
 func mouse_inventory():
