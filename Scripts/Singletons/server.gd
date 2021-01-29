@@ -52,8 +52,8 @@ func send_item_picked_up(item):
 func send_item_dropped(item_id):
 	rpc_id(1, "receive_item_dropped", item_id)
 
-func send_fixture_opened(fixture_pos):
-	rpc_id(1, "receive_fixture_opened", fixture_pos)
+func send_fixture_used(fixture):
+	rpc_id(1, "receive_fixture_used", fixture.get_id(), fixture.get_position(), fixture.get_instance_id())
 
 # items
 func fetch_spawned_items():

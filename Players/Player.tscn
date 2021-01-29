@@ -16,7 +16,7 @@ animations = [ {
 radius = 7.15527
 height = 2.39037
 
-[node name="Human" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D"]
 z_index = 2
 script = ExtResource( 1 )
 

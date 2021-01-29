@@ -6,11 +6,12 @@ onready var furnace_ui_scene = preload("res://Entities/Fixtures/Furnace/FurnaceU
 onready var furnace_ui_instance = furnace_ui_scene.instance()
 
 func _ready():
+	fixture_id = 2
 	player_can_use = true
 	player_can_open = true
 
 func use(player):
-	Server.send_fixture_opened(get_position())
+	Server.send_fixture_used(self)
 	player.get_node("GUI").add_child(furnace_ui_instance)
 	
 	for slot in furnace_ui_instance.slots:
